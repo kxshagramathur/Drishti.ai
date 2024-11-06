@@ -1,0 +1,101 @@
+Sport,Event,Category,Class,Gold,Silver,Bronze
+Archery,Individualdetails,Men's events,W1,Jason Tabansky United States,Han Guifei China,Zhang Tianxin China
+Archery,Individual compounddetails,Men's events,Open,Matt Stutzman United States,Ai Xinliang China,He Zihao China
+Archery,Individualdetails,Women's events,W1,Chen Minyi China,Šárka Musilová Czech Republic,Tereza Brandtlová Czech Republic
+Archery,Individual compounddetails,Women's events,Open,Öznur Cüre Turkey,Fatemeh Hemmati Iran,Jodie Grinham Great Britain
+Archery,Teamdetails,Mixed events,W1,ChinaChen MinyiZhang Tianxin,Czech RepublicŠárka MusilováDavid Drahonínský,ItalyDaila DamenoPaolo Tonon
+Archery,Team compounddetails,Mixed events,Open,Great BritainJodie GrinhamNathan MacQueen,IranFatemeh HemmatiHadi Nori,IndiaRakesh KumarSheetal Devi
+Athletics,100 metresdetails,Men's events,T11,Athanasios Ghavelas Greece,Timothee Adolphe France,Di Dongdong China
+Athletics,200 metresdetails,Men's events,T35,Ihor Tsvietov Ukraine,Dmitrii Safronov Neutral Paralympic Athletes,Artem Kalashian Neutral Paralympic Athletes
+Athletics,400 metresdetails,Men's events,T11,Enderson German Santos Gonzalez Venezuela,Timothée Adolphe France,Guillaume Junior Atangana Refugee Paralympic Team
+Athletics,800 metresdetails,Men's events,T34,Austin Smeenk Canada,Chaiwat Rattana Thailand,Rheed McCracken Australia
+Athletics,1500 metresdetails,Men's events,T11,Yeltsin Jacques Brazil,Yitayal Silesh Yigzaw Ethiopia,Júlio Cesar Agripino Brazil
+Athletics,5000 metresdetails,Men's events,T11,Júlio Cesar Agripino Brazil,Kenya Karasawa Japan,Yeltsin Jacques Brazil
+Athletics,Marathondetails,Men's events,T12,Wajdi Boukhili Tunisia,Alberto Suarez Laso Spain,El Amin Chentouf Morocco
+Athletics,High jumpdetails,Men's events,T47,Roderick Townsend United States,Nishad Kumar India,Georgii Margiev Neutral Paralympic Athletes
+Athletics,Long jumpdetails,Men's events,T11,Di Dongdong China,Chen Shichang China,Joan Munar Martínez Spain
+Athletics,Shot putdetails,Men's events,F11,Amirhossein Alipour Darbeid Iran,Mahdi Olad Iran,Alvaro del Amo Cano Spain
+Athletics,Discus throwdetails,Men's events,F11,Oney Tapia Italy,Hassan Bajoulvand Iran,Alvaro del Amo Cano Spain
+Athletics,Javelin throwdetails,Men's events,F13,Daniel Pembroke Great Britain,Ali Pirouj Iran,Ulicer Aguilera Cruz Cuba
+Athletics,Club throwdetails,Men's events,F32,Aleksei Churkin Neutral Paralympic Athletes,Athanasios Konstantinidis Greece,Ahmed Mehideb Algeria
+Athletics,100 metresdetails,Women's events,T11,Jerusa Geber dos Santos Brazil,Liu Cuiqing China,Lorena Salvatini Spoladore Brazil
+Athletics,200 metresdetails,Women's events,T11,Jerusa Geber dos Santos Brazil,Liu Cuiqing China,Lahja Ishitile Namibia
+Athletics,400 metresdetails,Women's events,T11,Lahja Ishitile Namibia,Thalita Simplício Brazil,He Shanshan China
+Athletics,800 metresdetails,Women's events,T34,Hannah Cockroft Great Britain,Kare Adenegan Great Britain,Eva Houston United States
+Athletics,1500 metresdetails,Women's events,T11,Yayesh Gate Tesfaw Ethiopia,He Shanshan China,Louzanne Coetzee South Africa
+Athletics,5000 metresdetails,Women's events,T54,Catherine Debrunner Switzerland,Susannah Scaroni United States,Madison de Rozario Australia
+Athletics,Marathondetails,Women's events,T12,Fatima Ezzahra Morocco,Meryem En-Nourhi Morocco,Misato Michishita Japan
+Athletics,Long jumpdetails,Women's events,T11,Asila Mirzayorova Uzbekistan,Zhou Guohua China,Alba García Falagán Spain
+Athletics,Shot putdetails,Women's events,F12,Assunta Legnante Italy,Safiya Burkhanova Uzbekistan,Zhao Yuping China
+Athletics,Discus throwdetails,Women's events,F11,Zhang Liangmin China,Assunta Legnante Italy,Xue Enhui China
+Athletics,Javelin throwdetails,Women's events,F13,Zhao Yuping China,Anna Kulinich-Sorokina Neutral Paralympic Athletes,Natalija Eder Austria
+Athletics,Club throwdetails,Women's events,F32,Maroua Brahmi Tunisia,Parastoo Habibi Iran,Giovanna Boscolo Brazil
+Athletics,4 x 100 metres relaydetails,Mixed events,Universal,ChinaHu YangWang HaoWen XiaoyanZhou Guohua,Great BritainJonnie PeacockZachary ShawSamantha KinghornAli Smith,United StatesKorban BestNoah MaloneHunter WoodhallTatyana McFaddenTaylor Swanson
+Badminton,Singles,Men's events,WH1details,Qu Zimo China,Choi Jung-man South Korea,Thomas Wandschneider Germany
+Badminton,Doubles,Men's events,WH1–WH2details,ChinaMai JianpengQu Zimo,South KoreaJeong Jae-gunYu Soo-young,JapanDaiki KajiwaraHiroshi Murayama
+Badminton,Singles,Women's events,WH1details,Sarina Satomi Japan,Sujirat Pookkham Thailand,Yin Menglu China
+Badminton,Doubles,Women's events,WH1–WH2details,ChinaLiu YutongYin Menglu,JapanSarina SatomiYuma Yamazaki,ThailandSujirat PookkhamAmnouy Wetwithan
+Badminton,Doubles,Mixed events,SL3–SU5details,IndonesiaHikmat RamdaniLeani Ratri Oktila,IndonesiaFredy SetiawanKhalimatus Sadiyah,FranceLucas MazurFaustine Noël
+Boccia,Individual,Men's events,BC1details,John Loung Hong Kong,Jung Sung-joon South Korea,Muhamad Syafa Indonesia
+Boccia,Individual,Women's events,BC1details,Aurélie Aubert France,Jeralyn Tan Singapore,Hiromi Endo Japan
+Boccia,Pair,Mixed events,BC3details,Hong KongHo Yuen KeiTse Tak Wah,South KoreaJeong Ho-wonKang Sun-hee,ArgentinaStefanía FerrandoRodrigo Romero
+Boccia,Team,Mixed events,BC1/BC2details,ChinaLan ZhijianYan ZhiqiangZhang Qi,IndonesiaMuhamad SyafaFelix Ardi YudhaGischa Zayana,JapanHiromi EndoTakayuki HiroseHidetaka Sugimura
+Cycling,Road racedetails,Road,H1–2,Florian Jouanny France,Sergio Garrote Munoz Spain,Luca Mazzone Italy
+Cycling,Time trialdetails,Road,H1,Fabrizio Cornegliani Italy,Maxime Hordies Belgium,Nicolas Pieter du Preez South Africa
+Cycling,Time trialdetails,Track,B,James Ball Great Britain,Neil Fachie Great Britain,Thomas Ulbricht Germany
+Cycling,Pursuitdetails,Track,B,Tristan Bangma Netherlands,Stephen Bate Great Britain,Lorenzo Bernard Italy
+Judo,60 kgdetails,Men's events,J1,Abdelkader Bouamer Algeria,Meysam Banitaba Iran,Marcos Dennis Blanco Venezuela
+Judo,60 kgdetails,Men's events,J2,Sherzod Namozov Uzbekistan,Zurab Zurabiani Georgia,Ishak Ouldkouider Algeria
+Judo,48 kgdetails,Women's events,J1,Nataliya Nikolaychyk Ukraine,Shizuka Hangai Japan,Rosicleide Silva de Andrade Brazil
+Judo,48 kgdetails,Women's events,J2,Akmaral Nauatbek Kazakhstan,Sandrine Martinet France,Li Liqing China
+Paracanoeing,Kayak,Men's events,KL1details,Péter Pál Kiss Hungary,Luis Carlos Cardoso Brazil,Remy Boulle France
+Paracanoeing,Va'a,Men's events,VL2details,Fernando Rufino Brazil,Igor Tofalini Brazil,Blake Haxton United States
+Paracanoeing,Kayak,Women's events,KL1details,Katherinne Wollermann Chile,Maryna Mazhula Ukraine,Edina Müller Germany
+Paracanoeing,Va'a,Women's events,VL2details,Emma Wiggs Great Britain,Brianna Hennessy Canada,Susan Seipel Australia
+Paratriathlon,Individual,Men's events,PTWCdetails,Jetze Plat Netherlands,Florian Brungraber Austria,Geert Schipper Netherlands
+Paratriathlon,Individual,Women's events,PTWCdetails,Lauren Parker Australia,Kendall Gretsch United States,Leanne Taylor Canada
+Shooting,10 m air rifle standingdetails,Men's events,SH1,Park Jin-ho South Korea,Yerkin Gabbasov Kazakhstan,Martin Black Jørgensen Denmark
+Shooting,10 m air rifle standingdetails,Women's events,SH1,Avani Lekhara India,Lee Yun-ri South Korea,Mona Agarwal India
+Shooting,10 m air rifle pronedetails,Mixed events,SH1,Veronika Vadovičová Slovakia,Radoslav Malenovský Slovakia,Juan Antonio Saavedra Reinaldo Spain
+Shooting,10 m air rifle standingdetails,Mixed events,SH2,Franček Gorazd Tiršek Slovenia,Tanguy de La Forest France,Seo Hun-tae South Korea
+Swimming,50 metre freestyledetails,Men's events,S3,Umut Unlu Turkey,Denys Ostapchenko Ukraine,Josia Topf Germany
+Swimming,100 metre freestyledetails,Men's events,S4,Ami Omer Dadaon Israel,Takayuki Suzuki Japan,Angel de Jesus Camacho Ramirez Mexico
+Swimming,200 metre freestyledetails,Men's events,S2,Gabriel Araújo Brazil,Vladimir Danilenko Neutral Paralympic Athletes,Alberto Abarza Chile
+Swimming,400 metre freestyledetails,Men's events,S6,Talisson Glock Brazil,Antonio Fantin Italy,Jesús Alberto Gutiérrez Mexico
+Swimming,50 metre backstrokedetails,Men's events,S1,Kamil Otowski Poland,Francesco Bettella Italy,Anton Kol Ukraine
+Swimming,100 metre backstrokedetails,Men's events,S1,Kamil Otowski Poland,Anton Kol Ukraine,Francesco Bettella Italy
+Swimming,50 metre breaststrokedetails,Men's events,SB2,Arnulfo Castorena Mexico,Ismail Barlov Bosnia and Herzegovina,Grant Patterson Australia
+Swimming,100 metre breaststrokedetails,Men's events,SB4,Dmitrii Cherniaev Neutral Paralympic Athletes,Antonios Tsapatakis Greece,Manuel Mateo Bortuzzo Italy
+Swimming,50 metre butterflydetails,Men's events,S5,Guo Jincheng China,Yuan Weiyi China,Wang Lichao China
+Swimming,100 metre butterflydetails,Men's events,S8,Alberto Amodeo Italy,Wu Hongliang China,Yang Guanglong China
+Swimming,150 metre individual medleydetails,Men's events,SM3,Josia Topf Germany,Ahmed Kelly Australia,Grant Patterson Australia
+Swimming,200 metre individual medleydetails,Men's events,SM6,Yang Hong China,Nelson Crispín Colombia,Talisson Glock Brazil
+Swimming,50 metre freestyledetails,Women's events,S4,Leanne Smith United States,Tanja Scholz Germany,Rachael Watson Australia
+Swimming,100 metre freestyledetails,Women's events,S3,Leanne Smith United States,Marta Fernandez Infante Spain,Rachael Watson Australia
+Swimming,200 metre freestyledetails,Women's events,S5,Tully Kearney Great Britain,Iryna Poida Ukraine,Monica Boggioni Italy
+Swimming,400 metre freestyledetails,Women's events,S6,Jiang Yuyan China,Nora Meister Switzerland,Maisie Summers-Newton Great Britain
+Swimming,50 metre backstrokedetails,Women's events,S2,Yip Pin Xiu Singapore,Haideé Aceves Mexico,Teresa Perales Spain
+Swimming,100 metre backstrokedetails,Women's events,S2,Yip Pin Xiu Singapore,Haideé Aceves Mexico,Angela Procida Italy
+Swimming,50 metre breaststrokedetails,Women's events,SB3,Monica Boggioni Italy,Patrícia Pereira Brazil,Marta Fernandez Infante Spain
+Swimming,100 metre breaststrokedetails,Women's events,SB4,Giulia Ghiretti Italy,Fanni Illés Hungary,Cheng Jiao China
+Swimming,50 metre butterflydetails,Women's events,S5,Lu Dong China,He Shenggao China,Sevilay Ozturk Turkey
+Swimming,100 metre butterflydetails,Women's events,S8,Jessica Long United States,Viktoriia Ishchiulova Neutral Paralympic Athletes,Alice Tai Great Britain
+Swimming,150 metre individual medleydetails,Women's events,SM4,Tanja Scholz Germany,Nataliia Butkova Neutral Paralympic Athletes,Lidia Vieira da Cruz Brazil
+Swimming,200 metre individual medleydetails,Women's events,SM5,He Shenggao China,Lu Dong China,Cheng Jiao China
+Swimming,4 x 50 metre relaydetails,Mixed events,Freestyle 20pts,ChinaPeng QiupingYuan WeiyiJiang YuyanGuo JinchengWang LichaoHe ShenggaoLu Dong,United StatesAbbas KarimiElizabeth MarksZachary ShattuckLeanne Smith,BrazilTalisson GlockPatrícia PereiraLídia Vieira da CruzDaniel XavierSamuel da Silva
+Swimming,4 x 100 metre relaydetails,Mixed events,Freestyle S14,Great BritainWilliam EllardRhys DarbeyPoppy MaskillOlivia Newman-Baronius,AustraliaJack IrelandMadeleine McTernanRuby StormBenjamin Hance,BrazilArthur XavierGabriel BandeiraBeatriz Borges CarneiroAna Karolina Soares
+Table tennis,Singles,Men's events,MS1details,Yunier Fernández Cuba,Robert Davies Great Britain,Federico Falco Italy
+Table tennis,Doubles,Men's events,MD4details,SlovakiaPeter LovasJán Riapoš,South KoreaJang Yeong-jinPark Sung-joo,FranceFabien LamiraultJulien Michaud
+Table tennis,Singles,Women's events,WS1–2details,Giada Rossi Italy,Liu Jing China,Dorota Bucław Poland
+Table tennis,Doubles,Women's events,WD5details,ChinaLiu JingXue Juan,South KoreaSeo Su-yeonYoon Ji-yu,BrazilCátia OliveiraJoyce de Oliveira
+Table tennis,Doubles,Mixed events,XD7details,ChinaZhou YingFeng Panfeng,ThailandYuttajak GlinbancheunWijittra Jaion,ChinaZhai XiangGu Xiaodan
+Wheelchair fencing,Individual épée,Men's events,Adetails,Sun Gang China,Piers Gilliver Great Britain,Hakan Akkaya Turkey
+Wheelchair fencing,Team épée,Men's events,A–B details,ChinaSun GangTian JianquanZhang JieZhong Saichun,IraqAmmar AliZainulabdeen Al-MadhkhooriHayder Al-Ogaili,Great BritainDimitri CoutyaOliver Lam WatsonPiers Gilliver
+Wheelchair fencing,Individual foil,Men's events,Adetails,Sun Gang China,Matteo Betti Italy,Zhong Saichun China
+Wheelchair fencing,Team foil,Men's events,A–B details,ChinaSun GangZhong SaichunFeng YankeTian Jianquan,Great BritainDimitri CoutyaOliver Lam WatsonPiers Gilliver,FranceDamien TokatlianLudovic LemoineMaxime ValetYohan Peter
+Wheelchair fencing,Individual sabre,Men's events,Adetails,Maurice Schmidt Germany,Piers Gilliver Great Britain,Edoardo Giordan Italy
+Wheelchair fencing,Individual épée,Women's events,Adetails,Chen Yuandong China,Kwon Hyo-kyeong South Korea,Gu Haiyan China
+Wheelchair fencing,Team épée,Women's events,A–B details,ChinaZou XufengGu HaiyanKang SuChen Yuandong,UkraineYevheniia BreusOlena Fedota-IsaievaNataliia MorkvychNadiia Doloh,ThailandSaysunee JanaDuean NakprasitAphinya Thongdaeng
+Wheelchair fencing,Individual foil,Women's events,Adetails,Zou Xufeng China,Gu Haiyan China,Judith Rodríguez Menéndez Spain
+Wheelchair fencing,Team foil,Women's events,A–B details,ChinaZou XufengGu HaiyanXiao RongChen Yuandong,HungaryEva HajmasiBoglarka MezoZsuzsanna KrajnyakAmarilla Veres,ItalyAndreea MogoșRossana PasquinoLoredana TrigiliaBeatrice Vio
+Wheelchair fencing,Individual sabre,Women's events,Adetails,Gu Haiyan China,Kinga Dróżdż Poland,Nino Tibilashvili Georgia
