@@ -4,14 +4,12 @@ import pandas as pd
 import re
 import os
 from langchain_experimental.agents.agent_toolkits import create_csv_agent
-from langchain_groq import ChatGroq
+from langchain_cerebras import ChatCerebras
 from dotenv import load_dotenv
 
 load_dotenv()
 
-if os.getenv("GROQ_API_KEY") is None or os.getenv("GROQ_API_KEY") == "":
-    st.write("GROQ_API_KEY is not set")
-    exit(1)
+
 
 TEMP_FOLDER = os.path.join(os.getcwd(), "temp_uploads")
 
@@ -19,7 +17,7 @@ if not os.path.exists(TEMP_FOLDER):
     os.makedirs(TEMP_FOLDER)
 
 def csv_agent_func(file_path, user_message):
-    llm = ChatGroq(model="llama-3.1-70b-versatile", temperature=0)
+    llm = ChatCerebras(model="llama3.1-70b", temperature=0)
     agent = create_csv_agent(
         llm,
         file_path, 
