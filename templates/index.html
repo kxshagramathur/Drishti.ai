@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drishti.ai (Prototype 1)</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Drishti.ai (Prototype 1)</h1>
+    <p>Please upload your CSV file and enter your query below:</p>
+    
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".csv">
+        <button type="submit">Upload</button>
+    </form>
+
+    {% if filename %}
+        <p><strong>Uploaded File:</strong> {{ filename }}</p>
+    {% endif %}
+
+    <form method="POST">
+        <input type="text" name="query" placeholder="Your query">
+        <button type="submit">Run</button>
+    </form>
+
+    {% if response %}
+        <h2>Response:</h2>
+        <pre>{{ response }}</pre>
+    {% endif %}
+
+    {% if plot_image %}
+        <h2>Visualization:</h2>
+        <img src="{{ url_for('uploaded_file', filename=plot_image) }}" alt="Plot">
+    {% endif %}
+
+    {% if error %}
+        <h2>Error:</h2>
+        <p>{{ error }}</p>
+    {% endif %}
+</body>
+</html>

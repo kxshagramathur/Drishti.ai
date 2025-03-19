@@ -1,23 +1,24 @@
-import matplotlib.pyplot as plt
-import streamlit as st
-import pandas as pd
-import re
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory, session
 import os
+import pandas as pd
+import matplotlib.pyplot as plt
+import re
 from langchain_experimental.agents.agent_toolkits import create_csv_agent
 from langchain_cerebras import ChatCerebras
 from dotenv import load_dotenv
+import uuid
 
 load_dotenv()
 
+app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = 'temp_uploads'
+app.secret_key = 'your_secret_key_here'  # Required for session management
 
-
-TEMP_FOLDER = os.path.join(os.getcwd(), "temp_uploads")
-
-if not os.path.exists(TEMP_FOLDER):
-    os.makedirs(TEMP_FOLDER)
+if not os.path.exists(app.config['UPLOAD_FOLDER']):
+    os.makedirs(app.config['UPLOAD_FOLDER'])
 
 def csv_agent_func(file_path, user_message):
-    llm = ChatCerebras(model="llama3.1-70b", temperature=0)
+    llm = ChatCerebras(model="llama3.3-70b", temperature=0)
     agent = create_csv_agent(
         llm,
         file_path, 
@@ -28,8 +29,7 @@ def csv_agent_func(file_path, user_message):
         response = agent.invoke(user_message)
         return str(response['output'])
     except Exception as e:
-        st.write(f"Error: {e}")
-        return None
+        return f"Error: {e}"
 
 def extract_code_from_response(response):
     if not isinstance(response, str):
@@ -58,40 +58,63 @@ def has_visualization_request(response):
     visualization_keywords = ['plot', 'chart', 'graph', 'visualize', 'visualization', 'figure']
     return any(keyword in response.lower() for keyword in visualization_keywords)
 
-def csv_analyzer_app():
-    st.title('Drishti.ai (Prototype 1)')
-    st.write('Please upload your CSV file and enter your query below:')
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if 'session_id' not in session:
+        session['session_id'] = str(uuid.uuid4())
     
-    uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
-    
-    if uploaded_file is not None:
-        file_details = {"FileName": uploaded_file.name, "FileType": uploaded_file.type, "FileSize": uploaded_file.size}
-        st.write(file_details)
-        
-        file_path = os.path.join(TEMP_FOLDER, uploaded_file.name)
-        with open(file_path, "wb") as f:
-            f.write(uploaded_file.getbuffer())
-        
-        df = pd.read_csv(file_path)
-        st.dataframe(df)
-        
-        user_input = st.text_input("Your query")
-        if st.button('Run'):
-            with st.spinner('Processing your query...'):
+    # Define file paths based on session ID
+    session_id = session['session_id']
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], f"{session_id}_data.csv")
+
+    if request.method == 'POST':
+        if 'file' in request.files:
+            # Handle file upload
+            file = request.files['file']
+            if file.filename != '':
+                # Save file with session ID
+                file.save(file_path)
+                session['has_file'] = True
+                session['original_filename'] = file.filename
+                return redirect(url_for('index'))
+
+        if 'query' in request.form:
+            # Handle query submission
+            if os.path.exists(file_path) and session.get('has_file', False):
+                user_input = request.form.get('query')
                 response = csv_agent_func(file_path, user_input)
-                
-                if response:
-                    if has_visualization_request(user_input):
-                        code_to_execute = extract_code_from_response(response)
-                        if code_to_execute:
-                            try:
-                                fig = execute_visualization(code_to_execute, df)
-                                st.pyplot(fig)
-                            except Exception as e:
-                                st.error(f"Error in visualization: {str(e)}")
-                    else:
-                        st.write("Response:")
-                        st.write(response)
+
+                if has_visualization_request(user_input):
+                    code_to_execute = extract_code_from_response(response)
+                    if code_to_execute:
+                        try:
+                            df = pd.read_csv(file_path)
+                            fig = execute_visualization(code_to_execute, df)
+                            plot_path = os.path.join(app.config['UPLOAD_FOLDER'], f"{session_id}_plot.png")
+                            fig.savefig(plot_path)
+                            return render_template('index.html', 
+                                                   response=response, 
+                                                   plot_image=f"{session_id}_plot.png",
+                                                   filename=session.get('original_filename', 'Uploaded file'))
+                        except Exception as e:
+                            return render_template('index.html', 
+                                                   error=f"Error in visualization: {str(e)}",
+                                                   filename=session.get('original_filename', 'Uploaded file'))
+                return render_template('index.html', 
+                                       response=response,
+                                       filename=session.get('original_filename', 'Uploaded file'))
+            else:
+                return render_template('index.html', error="Please upload a CSV file first.")
+
+    # For GET requests or after processing POST
+    if os.path.exists(file_path) and session.get('has_file', False):
+        return render_template('index.html', filename=session.get('original_filename', 'Uploaded file'))
+    else:
+        return render_template('index.html')
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 if __name__ == '__main__':
-    csv_analyzer_app()
+    app.run(debug=True)

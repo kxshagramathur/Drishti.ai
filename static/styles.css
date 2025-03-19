@@ -1,0 +1,24 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+h1 {
+    color: #333;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+pre {
+    background-color: #f4f4f4;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+}
