@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drishti.ai - Workflows</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <nav class="navbar">
+            <div class="nav-brand">Drishti.ai</div>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}" class="nav-link">Data Analysis</a>
+                <a href="{{ url_for('workflows') }}" class="nav-link active">Workflows</a>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <div class="workflow-container">
+                <div class="upload-section">
+                    <h2>Upload CSV File</h2>
+                    <form method="POST" enctype="multipart/form-data" class="upload-form">
+                        <div class="file-input-wrapper">
+                            <input type="file" name="workflow_file" accept=".csv" id="file-input">
+                            <label for="file-input" class="file-input-label">
+                                Choose CSV File
+                            </label>
+                        </div>
+                        <button type="submit" class="upload-button">Upload</button>
+                    </form>
+                    {% if filename %}
+                        <div class="current-file">
+                            <span class="file-icon">📄</span>
+                            <span class="file-name">{{ filename }}</span>
+                        </div>
+                    {% endif %}
+                </div>
+
+                {% if has_file %}
+                <div class="workflows-section">
+                    <h2>Available Workflows</h2>
+                    
+                    <div class="workflow-group">
+                        <h3>Handle Missing Values</h3>
+                        <div class="workflow-actions">
+                            <form method="POST" class="workflow-form">
+                                <input type="hidden" name="action" value="drop_rows">
+                                <button type="submit" class="workflow-button">
+                                    <span class="button-icon">🗑️</span>
+                                    Drop Rows with Missing Values
+                                </button>
+                            </form>
+                            <form method="POST" class="workflow-form">
+                                <input type="hidden" name="action" value="replace_mean">
+                                <button type="submit" class="workflow-button">
+                                    <span class="button-icon">📊</span>
+                                    Replace with Mean
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="workflow-group">
+                        <h3>Remove Duplicate Rows</h3>
+                        <div class="workflow-actions">
+                            <form method="POST" class="workflow-form">
+                                <input type="hidden" name="action" value="remove_duplicates">
+                                <button type="submit" class="workflow-button">
+                                    <span class="button-icon">🔍</span>
+                                    Remove Duplicate Rows
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="workflow-group">
+                        <h3>Remove Empty Columns</h3>
+                        <div class="workflow-actions">
+                            <form method="POST" class="workflow-form">
+                                <input type="hidden" name="action" value="remove_empty_columns">
+                                <button type="submit" class="workflow-button">
+                                    <span class="button-icon">🗑️</span>
+                                    Remove Empty Columns
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="download-section">
+                        <a href="{{ url_for('download_workflow_file') }}" class="download-button">
+                            <span class="button-icon">⬇️</span>
+                            Download Processed CSV
+                        </a>
+                    </div>
+                </div>
+
+                {% if history %}
+                <div class="history-section">
+                    <h2>Workflow History</h2>
+                    <div class="history-list">
+                        {% for entry in history|reverse %}
+                        <div class="history-item">
+                            <div class="history-header">
+                                <span class="history-action">{{ entry.action }}</span>
+                                <span class="history-timestamp">{{ entry.timestamp }}</span>
+                            </div>
+                            <div class="history-details">
+                                <div class="history-stat">
+                                    <span class="stat-label">Initial Rows:</span>
+                                    <span class="stat-value">{{ entry.initial_rows }}</span>
+                                </div>
+                                <div class="history-stat">
+                                    <span class="stat-label">Initial Columns:</span>
+                                    <span class="stat-value">{{ entry.initial_cols }}</span>
+                                </div>
+                                <div class="history-stat">
+                                    <span class="stat-label">Affected Rows:</span>
+                                    <span class="stat-value">{{ entry.affected_rows }}</span>
+                                </div>
+                                <div class="history-stat">
+                                    <span class="stat-label">Affected Columns:</span>
+                                    <span class="stat-value">{{ entry.affected_cols }}</span>
+                                </div>
+                                <div class="history-stat">
+                                    <span class="stat-label">Final Rows:</span>
+                                    <span class="stat-value">{{ entry.final_rows }}</span>
+                                </div>
+                                <div class="history-stat">
+                                    <span class="stat-label">Final Columns:</span>
+                                    <span class="stat-value">{{ entry.final_cols }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
