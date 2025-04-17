@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        /* Include base styles from other templates */
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #fff;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo {
+            max-width: 300px;
+            height: auto;
+            object-fit: contain;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #f8f9fa;
+            padding: 15px 0;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        .nav-link:hover {
+            background-color: #e9ecef;
+        }
+        .nav-link.active {
+            background-color: #007bff;
+            color: white;
+        }
+        .container {
+            background-color: #f5f5f5;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .upload-container {
+            text-align: center;
+            padding: 20px;
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            margin: 20px 0;
+            background-color: white;
+        }
+        .upload-container input[type="file"] {
+            display: none;
+        }
+        .upload-container label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .upload-container label:hover {
+            background-color: #0056b3;
+        }
+        .actions-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .action-button {
+            padding: 15px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .action-button h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        .action-button p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .data-preview {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        .history-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .history-entry {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .history-entry:last-child {
+            border-bottom: none;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        .table th, .table td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .table th {
+            background-color: #f8f9fa;
+        }
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(0,0,0,.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo-container">
+            <img src="{{ url_for('static', path='logo.png') }}" alt="Drishti.AI Logo" class="logo">
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-link {% if active_page == 'chat' %}active{% endif %}">Chat</a>
+            <a href="/workflows" class="nav-link {% if active_page == 'workflows' %}active{% endif %}">Workflows</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <h1>Data Cleaning Workflow</h1>
+        <p>Clean and prepare your data with automated tools</p>
+        
+        <div class="upload-container">
+            <label for="file-upload">Upload CSV File</label>
+            <input type="file" id="file-upload" accept=".csv">
+        </div>
+        
+        <div id="data-preview" class="data-preview" style="display: none;">
+            <h2>Data Preview</h2>
+            <div id="preview-content"></div>
+        </div>
+        
+        <div class="actions-container" id="actions-container" style="display: none;">
+            <div class="action-button" onclick="performAction('drop_rows')">
+                <h3>Drop Missing Rows</h3>
+                <p>Remove rows that contain any missing values</p>
+            </div>
+            <div class="action-button" onclick="performAction('replace_mean')">
+                <h3>Replace with Mean</h3>
+                <p>Replace missing values with column mean</p>
+            </div>
+            <div class="action-button" onclick="performAction('remove_duplicates')">
+                <h3>Remove Duplicates</h3>
+                <p>Remove duplicate rows from the dataset</p>
+            </div>
+            <div class="action-button" onclick="performAction('remove_empty_columns')">
+                <h3>Remove Empty Columns</h3>
+                <p>Remove columns that are completely empty</p>
+            </div>
+        </div>
+        
+        <div id="history-container" class="history-container" style="display: none;">
+            <h2>Cleaning History</h2>
+            <div id="history-content"></div>
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('file-upload');
+        const dataPreview = document.getElementById('data-preview');
+        const previewContent = document.getElementById('preview-content');
+        const actionsContainer = document.getElementById('actions-container');
+        const historyContainer = document.getElementById('history-container');
+        const historyContent = document.getElementById('history-content');
+
+        fileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('file', file);
+
+                try {
+                    const response = await fetch('/workflows/data-cleaning/upload', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await response.json();
+
+                    if (data.status === 'success') {
+                        previewContent.innerHTML = data.preview;
+                        dataPreview.style.display = 'block';
+                        actionsContainer.style.display = 'grid';
+                        historyContainer.style.display = 'block';
+                        updateHistory([]);
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                } catch (error) {
+                    alert('Error uploading file: ' + error);
+                }
+            }
+        });
+
+        async function performAction(action) {
+            try {
+                const formData = new FormData();
+                formData.append('action', action);
+
+                const response = await fetch('/workflows/data-cleaning/action', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    previewContent.innerHTML = data.preview;
+                    updateHistory(data.history);
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            } catch (error) {
+                alert('Error performing action: ' + error);
+            }
+        }
+
+        function updateHistory(history) {
+            historyContent.innerHTML = history.map(entry => `
+                <div class="history-entry">
+                    <strong>${entry.timestamp}</strong> - ${entry.action}<br>
+                    Rows: ${entry.initial_rows} → ${entry.final_rows} (${entry.affected_rows} affected)<br>
+                    Columns: ${entry.initial_cols} → ${entry.final_cols} (${entry.affected_cols} affected)
+                </div>
+            `).join('');
+        }
+
+        // Initialize history if available
+        {% if history %}
+            updateHistory({{ history | tojson }});
+            historyContainer.style.display = 'block';
+        {% endif %}
+
+        // Show actions if file exists
+        {% if has_file %}
+            actionsContainer.style.display = 'grid';
+        {% endif %}
+    </script>
+</body>
+</html> 

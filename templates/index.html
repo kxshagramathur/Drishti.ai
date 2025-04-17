@@ -3,40 +3,301 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drishti.ai (Prototype 1)</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #fff;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo {
+            max-width: 300px;
+            height: auto;
+            object-fit: contain;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .data-preview {
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 20px 0;
+        }
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .chat-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: block;
+        }
+        .chat-messages::after {
+            content: '';
+            display: table;
+            clear: both;
+        }
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 15px;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            position: relative;
+            clear: both;
+            margin: 8px 0;
+        }
+        .user-message {
+            background-color: #007bff;
+            color: white;
+            float: right;
+            border-bottom-right-radius: 5px;
+            margin-left: 20%;
+        }
+        .bot-message {
+            background-color: #f0f0f0;
+            color: #000;
+            float: left;
+            border-bottom-left-radius: 5px;
+            margin-right: 20%;
+        }
+        .system-message {
+            background-color: #ffd700;
+            color: #000;
+            margin: 8px auto;
+            float: none;
+            font-size: 0.9em;
+            padding: 8px 12px;
+            border-radius: 10px;
+            opacity: 0.8;
+            text-align: center;
+            max-width: 60%;
+        }
+        .chat-input {
+            display: flex;
+            gap: 10px;
+            padding: 15px;
+            background-color: #fff;
+            border-top: 1px solid #eee;
+            border-radius: 0 0 10px 10px;
+        }
+        .chat-input input {
+            flex-grow: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+            font-size: 1rem;
+        }
+        .chat-input input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+        }
+        .chat-input button {
+            padding: 12px 24px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        .chat-input button:hover {
+            background-color: #0056b3;
+        }
+        .chat-input button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .upload-container {
+            text-align: center;
+            padding: 20px;
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .upload-container input[type="file"] {
+            display: none;
+        }
+        .upload-container label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .navbar {
+            background-color: #f8f9fa;
+            padding: 15px 0;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        .nav-link:hover {
+            background-color: #e9ecef;
+        }
+        .nav-link.active {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <h1>Drishti.ai (Prototype 1)</h1>
-    <p>Please upload your CSV file and enter your query below:</p>
+    <div class="header">
+        <div class="logo-container">
+            <img src="{{ url_for('static', path='logo.png') }}" alt="Drishti.AI Logo" class="logo">
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-link {% if active_page == 'chat' %}active{% endif %}">Chat</a>
+            <a href="/workflows" class="nav-link {% if active_page == 'workflows' %}active{% endif %}">Workflows</a>
+        </div>
+    </nav>
     
-    <form method="POST" enctype="multipart/form-data">
-        <input type="file" name="file" accept=".csv">
-        <button type="submit">Upload</button>
-    </form>
+    <div class="container">
+        <div class="upload-container">
+            <label for="file-upload">Upload CSV File</label>
+            <input type="file" id="file-upload" accept=".csv">
+        </div>
+        
+        <div id="data-preview" class="data-preview"></div>
+        
+        <div class="chat-container">
+            <div id="chat-messages" class="chat-messages"></div>
+            <div class="chat-input">
+                <input type="text" id="user-input" placeholder="Type your question here..." disabled>
+                <button id="send-button" disabled>Send</button>
+            </div>
+        </div>
+    </div>
 
-    {% if filename %}
-        <p><strong>Uploaded File:</strong> {{ filename }}</p>
-    {% endif %}
+    <script>
+        const fileInput = document.getElementById('file-upload');
+        const dataPreview = document.getElementById('data-preview');
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
 
-    <form method="POST">
-        <input type="text" name="query" placeholder="Your query">
-        <button type="submit">Run</button>
-    </form>
+        fileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('file', file);
 
-    {% if response %}
-        <h2>Response:</h2>
-        <pre>{{ response }}</pre>
-    {% endif %}
+                try {
+                    const response = await fetch('/upload', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await response.json();
 
-    {% if plot_image %}
-        <h2>Visualization:</h2>
-        <img src="{{ url_for('uploaded_file', filename=plot_image) }}" alt="Plot">
-    {% endif %}
+                    if (data.status === 'success') {
+                        dataPreview.innerHTML = data.preview;
+                        userInput.disabled = false;
+                        sendButton.disabled = false;
+                        addMessage('System', 'File uploaded successfully. You can now ask questions about the data.');
+                    } else {
+                        addMessage('System', 'Error: ' + data.message);
+                    }
+                } catch (error) {
+                    addMessage('System', 'Error uploading file: ' + error);
+                }
+            }
+        });
 
-    {% if error %}
-        <h2>Error:</h2>
-        <p>{{ error }}</p>
-    {% endif %}
+        sendButton.addEventListener('click', async () => {
+            const prompt = userInput.value.trim();
+            if (prompt) {
+                addMessage('You', prompt);
+                userInput.value = '';
+
+                try {
+                    const response = await fetch('/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `prompt=${encodeURIComponent(prompt)}`
+                    });
+                    const data = await response.json();
+
+                    if (data.status === 'success') {
+                        addMessage('Bot', data.response);
+                    } else {
+                        addMessage('System', 'Error: ' + data.message);
+                    }
+                } catch (error) {
+                    addMessage('System', 'Error: ' + error);
+                }
+            }
+        });
+
+        function addMessage(sender, message) {
+            const messageDiv = document.createElement('div');
+            if (sender === 'System') {
+                messageDiv.className = 'message system-message';
+            } else {
+                messageDiv.className = `message ${sender.toLowerCase()}-message`;
+            }
+            messageDiv.textContent = message;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    </script>
 </body>
 </html>
+
