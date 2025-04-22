@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request, UploadFile, File, Form, Response
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.responses import JSONResponse, RedirectResponse, FileResponse
 import pandas as pd
 import os
 from langchain_cerebras import ChatCerebras
@@ -13,6 +13,11 @@ from datetime import datetime
 from starlette.middleware.sessions import SessionMiddleware
 import shutil
 import json
+import matplotlib.pyplot as plt
+import base64
+from io import BytesIO
+from sklearn.cluster import KMeans, DBSCAN, AgglomerativeClustering
+import numpy as np
 
 # Load environment variables
 load_dotenv()
@@ -101,8 +106,9 @@ async def upload_workflow_file(request: Request, file: UploadFile = File(...)):
             "status": "success",
             "message": "File uploaded successfully",
             "preview": df.head().to_html(classes='table table-striped'),
+            "columns": df.columns.tolist(),  # Convert columns to list
             "rows": len(df),
-            "columns": len(df.columns)
+            "columns_count": len(df.columns)
         })
     except Exception as e:
         if os.path.exists(file_path):
@@ -194,6 +200,38 @@ async def perform_cleaning_action(request: Request, action: str = Form(...)):
             "message": str(e)
         }, status_code=400)
 
+@app.get("/workflows/data-cleaning/download")
+async def download_cleaned_data(request: Request):
+    if "workflow_session_id" not in request.session:
+        return JSONResponse({
+            "status": "error",
+            "message": "No active session"
+        }, status_code=400)
+    
+    session_id = request.session["workflow_session_id"]
+    file_path = os.path.join(WORKFLOW_UPLOAD_FOLDER, f"{session_id}_workflow_data.csv")
+    
+    if not os.path.exists(file_path):
+        return JSONResponse({
+            "status": "error",
+            "message": "No cleaned data available"
+        }, status_code=400)
+    
+    try:
+        return FileResponse(
+            path=file_path,
+            filename="cleaned_data.csv",
+            media_type="text/csv",
+            headers={
+                "Content-Disposition": "attachment; filename=cleaned_data.csv"
+            }
+        )
+    except Exception as e:
+        return JSONResponse({
+            "status": "error",
+            "message": f"Error downloading file: {str(e)}"
+        }, status_code=500)
+
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
     global df, agent_executor
@@ -213,8 +251,7 @@ async def upload_file(file: UploadFile = File(...)):
             model,
             df,
             allow_dangerous_code=True,
-            verbose=True,
-            handle_parsing_errors=True
+            verbose=True
         )
         
         # Get a preview of the data
@@ -344,7 +381,6 @@ async def generate_heatmap(request: Request, x_axis: str = Form(...), y_axis: st
         buffer.seek(0)
         image_png = buffer.getvalue()
         buffer.close()
-        max_iterations=5
         # Convert to base64
         image_base64 = base64.b64encode(image_png).decode('utf-8')
         
@@ -613,16 +649,24 @@ async def perform_clustering(request: Request, algorithm: str = Form(...), n_clu
     try:
         df = pd.read_csv(file_path)
         selected_features = json.loads(features)
+        
+        # Ensure all selected features are numeric
+        for feature in selected_features:
+            if not pd.api.types.is_numeric_dtype(df[feature]):
+                df[feature] = pd.to_numeric(df[feature], errors='coerce')
+        
+        # Remove any rows with NaN values
+        df = df.dropna(subset=selected_features)
+        
+        if len(df) == 0:
+            return JSONResponse({
+                "status": "error",
+                "message": "No valid numeric data found in selected features"
+            }, status_code=400)
+        
         X = df[selected_features]
         
-        # Perform clustering
-        from sklearn.cluster import KMeans, DBSCAN, AgglomerativeClustering
-        from sklearn.preprocessing import StandardScaler
-        
-        # Scale the features
-        scaler = StandardScaler()
-        X_scaled = scaler.fit_transform(X)
-        
+        # Perform clustering based on selected algorithm
         if algorithm == "kmeans":
             model = KMeans(n_clusters=n_clusters, random_state=42)
         elif algorithm == "dbscan":
@@ -630,18 +674,14 @@ async def perform_clustering(request: Request, algorithm: str = Form(...), n_clu
         else:  # hierarchical
             model = AgglomerativeClustering(n_clusters=n_clusters)
         
-        clusters = model.fit_predict(X_scaled)
+        clusters = model.fit_predict(X)
         
         # Generate visualization
-        import matplotlib.pyplot as plt
-        import base64
-        from io import BytesIO
-        
         plt.figure(figsize=(10, 8))
         
         if visualization == "scatter":
             if len(selected_features) >= 2:
-                plt.scatter(X_scaled[:, 0], X_scaled[:, 1], c=clusters, cmap='viridis')
+                plt.scatter(X.iloc[:, 0], X.iloc[:, 1], c=clusters, cmap='viridis')
                 plt.title(f"{algorithm.upper()} Clustering Results")
                 plt.xlabel(selected_features[0])
                 plt.ylabel(selected_features[1])
@@ -650,30 +690,33 @@ async def perform_clustering(request: Request, algorithm: str = Form(...), n_clu
         else:  # dendrogram
             if algorithm == "hierarchical":
                 from scipy.cluster.hierarchy import dendrogram, linkage
-                Z = linkage(X_scaled, 'ward')
+                Z = linkage(X, 'ward')
                 dendrogram(Z)
                 plt.title("Hierarchical Clustering Dendrogram")
             else:
                 raise ValueError("Dendrogram is only available for hierarchical clustering")
         
+        # Save plot to bytes
         buffer = BytesIO()
         plt.savefig(buffer, format='png')
         buffer.seek(0)
         image_png = buffer.getvalue()
         buffer.close()
         
+        # Convert to base64
         image_base64 = base64.b64encode(image_png).decode('utf-8')
         
         # Generate cluster statistics
         df['cluster'] = clusters
-        cluster_stats = df.groupby('cluster').agg(['mean', 'std', 'count']).round(2)
+        # Calculate statistics for numeric columns only
+        numeric_stats = df.groupby('cluster')[selected_features].agg(['mean', 'std', 'count']).round(2)
         
         return JSONResponse({
             "status": "success",
             "visualization": f'<img src="data:image/png;base64,{image_base64}" alt="Clustering Results">',
             "results": f"""
                 <h3>Cluster Statistics</h3>
-                {cluster_stats.to_html(classes='table table-striped')}
+                {numeric_stats.to_html(classes='table table-striped')}
             """
         })
     except Exception as e:
